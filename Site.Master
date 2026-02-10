@@ -1,0 +1,58 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="Site" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Parking Management</title>
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="Home.aspx" class="logo">Parking<span style="color: var(--secondary-color);">Pro</span></a>
+                <ul class="nav-links">
+                    <li><a href="Home.aspx">Home</a></li>
+                    
+                    <% if (Session["username"] == null) { %>
+                        <li><a href="Login.aspx">Login</a></li>
+                        <li><a href="Register.aspx">Register</a></li>
+                    <% } else { %>
+                        <% if (Session["user_type"] != null && Session["user_type"].ToString() == "admin") { %>
+                            <li><a href="AdminDashboard.aspx">Dashboard</a></li>
+                            <li><a href="AddSlot.aspx">Slots</a></li>
+                            <li><a href="ManageUsers.aspx">Users</a></li>
+                            <li><a href="ViewBookings.aspx">Bookings</a></li>
+                            <li><a href="Reports.aspx">Reports</a></li>
+                            <li><a href="ViewFeedback.aspx">Feedback</a></li>
+                        <% } else { %>
+                            <li><a href="SearchParking.aspx">Book Parking</a></li>
+                            <li><a href="ViewBookings.aspx">My Bookings</a></li>
+                            <li><a href="Feedback.aspx">Feedback</a></li>
+                        <% } %>
+                        <li>
+                            <asp:LinkButton ID="LinkButtonLogout" runat="server" OnClick="Logout_Click" CssClass="btn-logout">Logout</asp:LinkButton>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="main-content container">
+            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+        <footer style="background: rgba(15,23,42,0.95); padding: 2rem 0; border-top: 1px solid var(--border-color); margin-top: auto;">
+            <div class="container text-center">
+                <p>&copy; <%= DateTime.Now.Year %> Online Parking Management. All rights reserved.</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Premium Parking Experience | <a href="Login.aspx" style="color: var(--primary-color);">Admin Login</a></p>
+            </div>
+        </footer>
+    </form>
+</body>
+</html>
